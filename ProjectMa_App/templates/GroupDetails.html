@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block content %}
+       <form method="post" class="projectform">
+               {% csrf_token %}
+               {{ GroupForm.as_p }}<br>
+                <input type="submit" id="submit" value="Submit Project Details">
+
+</form>
+   {% endblock %}
+</body>
+</html>
+<script>
+document.getElementById("id_Group_Type").onchange = function() {myFunction()};
+
+function myFunction() {
+ var x=document.getElementById("id_Group_Type").value;
+ if(x == "1 Member"){
+ document.getElementById("id_Member2_Name").style.display="none";
+ document.getElementById("id_Member2_Roll").style.display="none";
+ document.getElementById("id_Member3_Name").style.display="none";
+  document.getElementById("id_Member3_Roll").style.display="none";
+ document.getElementById("id_Member4_Name").style.display="none";
+  document.getElementById("id_Member4_Roll").style.display="none";
+  }
+  if(x == "2 Members"){
+ document.getElementById("id_Member3_Name").style.display="none";
+  document.getElementById("id_Member3_Roll").style.display="none";
+ document.getElementById("id_Member4_Name").style.display="none";
+  document.getElementById("id_Member4_Roll").style.display="none";
+  }
+  if(x == "3 Members"){
+
+ document.getElementById("id_Member4_Name").style.display="none";
+  document.getElementById("id_Member4_Roll").style.display="none";
+  }
+ }
+</script>
+
+<style>
+    .projectform input,select,textarea{width:60%;border-radius:10px;padding:5px;margin-bottom:20px}
+    tr,td{padding:10px;}
+    .projectform label{font-weight:bold;display:block;}
+</style>

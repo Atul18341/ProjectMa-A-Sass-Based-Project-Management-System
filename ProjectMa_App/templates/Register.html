@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProjectMa:Register</title>
+</head>
+<body>
+<h3 align="center"><u>Group Account Creation</u><br>
+Note: Kindly Create only one account per group (by Group Representative)</h3>
+      <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+          <input type="submit" value="Register">
+      </form>
+</body>
+</html>
+
+<style>
+    .helptext,ul{display:none}
+    form{text-align:center}
+</style>

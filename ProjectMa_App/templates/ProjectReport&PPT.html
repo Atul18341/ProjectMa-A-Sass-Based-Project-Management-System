@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProjectMa:</title>
+</head>
+<body>
+{% block content %}
+       <form method="post" class="projectform">
+               {% csrf_token %}
+               {{ ReportForm.as_p }}<br>
+                <input type="submit" id="submit" value="Submit Project Details">
+
+</form>
+   {% endblock %}
+</body>
+</html>
+
+<style type="text/css">
+    label{display:block;font-weight:bold;padding-bottom:10px}
+    form{text-align:center}
+</style>
