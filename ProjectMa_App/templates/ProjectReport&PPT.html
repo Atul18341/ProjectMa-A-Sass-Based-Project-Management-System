@@ -6,7 +6,7 @@
 </head>
 <body>
 {% block content %}
-       <form method="post" class="projectform">
+       <form method="post" class="projectform" enctype="multipart/form-data">
                {% csrf_token %}
                {{ ReportForm.as_p }}<br>
                 <input type="submit" id="submit" value="Submit Project Details">

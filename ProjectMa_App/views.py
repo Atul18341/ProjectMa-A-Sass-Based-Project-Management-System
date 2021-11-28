@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.contrib.auth import login,authenticate
 from django.contrib import messages
 from .forms import ProjectForm,GroupDetailsForm,ProjectReportPPTForm
-from .models import MCE_CSE_Faculties,MCE_Student_Records
+from .models import MCE_CSE_Faculties,MCE_Student_Records,MCE_Student_Details,ReportDetails
 
 # Create your views here.
 class IndexView(View):
@@ -19,14 +19,12 @@ class ProjectFormView(View):
     def post(self,request):
         pform=ProjectForm(request.POST)
         if pform.is_valid():
-            group=pform.cleaned_data['Group_Name']
-            form = MCE_Student_Records.objects.get(Group_Name=group)
-            form.save()
+            pform.save()
             name = pform.cleaned_data['Mentor_Teacher']
             count = MCE_CSE_Faculties.objects.get(faculty_name=name)
             count.project_count += 1
             count.save()
-            return redirect("Confirmation")
+            return redirect("Dashboard")
 
 class LoginView(View):
     def get(self, request):
@@ -77,9 +75,36 @@ class ProjectReportPPTFormView(View):
     def post(self,request):
         ReportForm=ProjectReportPPTForm(request.POST,request.FILES)
         if ReportForm.is_valid():
-            group = ReportForm.post['Group_Name']
-            form = MCE_Student_Records.objects.get(Group_Name=group)
+            '''group = ReportForm.post['Group_Name']
+            form = MCE_Student_Details.objects.get(Group_Name=group)
             form.Project_PPT = ReportForm.post['Project_PPT']
             form.Project_Report = ReportForm.post['Project_Report']
-            form.save()
-        return redirect("Dashboard")
+            form.save()'''
+            group = ReportForm.cleaned_data['Group_Name']
+            form = MCE_Student_Details.objects.get(Group_Name=group)
+            pform = ReportDetails.objects.get(Group_Name=group)
+            MCE_Student_Records(
+                Semester=form.Semester,
+                Mentor_Teacher=pform.Mentor_Teacher,
+                Group_Name=form.Group_Name,
+                Group_Representative_Name=form.Group_Representative_Name,
+                Group_Type=form.Group_Type,
+                Member1_Name=form.Member1_Name,
+                Member1_Roll=form.Member1_Roll,
+                Member2_Name=form.Member2_Name,
+                Member2_Roll=form.Member2_Roll,
+                Member3_Name=form.Member3_Name,
+                Member3_Roll=form.Member3_Roll,
+                Member4_Name=form.Member4_Name,
+                Member4_Roll=form.Member4_Roll,
+                Project_Name=pform.Project_Name,
+                Project_Abstract=pform.Project_Abstract,
+                Technologies_to_be_used=pform.Technologies_to_be_used,
+                Project_Report=request.FILES.get('Project_Report'),
+                Project_PPT =request.FILES.get('Project_PPT')
+            ).save()
+
+        return redirect("Confirmation")
+'''def vview(request):
+    s=MCE_Student_Records.objects.all()
+    return render (request,'view.html',{'s':s})'''

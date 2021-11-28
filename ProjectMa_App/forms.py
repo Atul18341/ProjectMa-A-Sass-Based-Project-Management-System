@@ -3,15 +3,15 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models import F
 
-from .models import Semester,MCE_CSE_Faculties,MCE_Student_Records
+from .models import Semester,MCE_CSE_Faculties,MCE_Student_Records,MCE_Student_Details,ReportDetails
 Members = (("#","--------"),("1 Member","1 Member"),("2 Members","2 Members"),("3 Members","3 Members"),("4 Members","4 Members"))
 class ProjectForm(forms.ModelForm):
-    Group_Name=forms.ModelChoiceField(queryset=MCE_Student_Records.objects.all(), to_field_name="Group_Name")
+    Group_Name=forms.ModelChoiceField(queryset=MCE_Student_Details.objects.all(), to_field_name="Group_Name")
     Mentor_Teacher = forms.ModelChoiceField(
         queryset=MCE_CSE_Faculties.objects.filter(project_count__lt=F('project_alloted')), to_field_name="faculty_name")
 
     class Meta:
-        model=MCE_Student_Records
+        model=ReportDetails
         fields=('Group_Name','Mentor_Teacher','Project_Name','Project_Abstract','Technologies_to_be_used')
         widgets = {
             'Group_Name': forms.TextInput(attrs={'placeholder': 'Group Name'}),
@@ -54,11 +54,11 @@ class GroupDetailsForm(forms.ModelForm):
     Member4_Roll = forms.IntegerField(required=False, label='',
                                       widget=forms.NumberInput(attrs={'placeholder': 'Member-4 Roll'}))
     class Meta:
-        model=MCE_Student_Records
+        model=MCE_Student_Details
         fields=('Semester','Group_Name','Group_Representative_Name','Group_Type','Member1_Name','Member1_Roll','Member2_Name','Member2_Roll','Member3_Name','Member3_Roll','Member4_Name','Member4_Roll')
         widgets = {
             'Group_Name': forms.TextInput(attrs={'placeholder': 'Group Name'}),
-            'Group_Representative_Name': forms.TextInput(attrs={'placeholder': 'Group Representative Name'}),
+            'G.roup_Representative_Name': forms.TextInput(attrs={'placeholder': 'Group Representative Name'}),
             'Member1_Name': forms.TextInput(attrs={'placeholder': 'Member-1 Name'}),
             'Project_Name': forms.TextInput(attrs={'placeholder': 'Project Name'}),
         }
@@ -71,7 +71,7 @@ class GroupDetailsForm(forms.ModelForm):
         }
 
 class ProjectReportPPTForm(forms.ModelForm):
-    Group_Name = forms.ModelChoiceField(queryset=MCE_Student_Records.objects.all(),to_field_name="Group_Name")
+    Group_Name = forms.ModelChoiceField(queryset=MCE_Student_Details.objects.all(),to_field_name="Group_Name")
     class Meta:
         model=MCE_Student_Records
         fields=("Group_Name","Project_Report","Project_PPT")
